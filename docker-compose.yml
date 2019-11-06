@@ -46,10 +46,11 @@ services:
     image: desec/dedyn-dbapi:latest
     init: true
     volumes:
-    - dbapi_mysql:/var/lib/mysql
+    - dbapi_postgres:/var/lib/postgresql/data
     environment:
     - DESECSTACK_IPV4_REAR_PREFIX16
-    - DESECSTACK_DBAPI_PASSWORD_desec
+    - POSTGRES_USER=desec
+    - POSTGRES_PASSWORD=${DESECSTACK_DBAPI_PASSWORD_desec}
     networks:
     - rearapi_dbapi
     logging:
@@ -232,7 +233,7 @@ services:
 
 
 volumes:
-  dbapi_mysql:
+  dbapi_postgres:
   dblord_mysql:
   dbmaster_mysql:
   rabbitmq_data:
