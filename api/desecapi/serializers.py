@@ -301,6 +301,10 @@ class RRsetSerializer(ConditionalExistenceModelSerializer):
 
         return instance
 
+    def save(self, **kwargs):
+        kwargs.setdefault('domain', self.domain)
+        return super().save(**kwargs)
+
     @staticmethod
     def _set_all_record_contents(rrset: models.RRset, rrs):
         """
@@ -494,6 +498,10 @@ class RRsetListSerializer(serializers.ListSerializer):
             raise ConcurrencyException from e
 
         return ret
+
+    def save(self, **kwargs):
+        kwargs.setdefault('domain', self.child.domain)
+        return super().save(**kwargs)
 
 
 class DomainSerializer(serializers.ModelSerializer):
