@@ -275,6 +275,16 @@ class Domain(ExportModelOperationsMixin('Domain'), models.Model):
         return self._keys
 
     @property
+    def updated(self):
+        try:
+            rrset_updated = max(updated for updated in self.rrset_set.values_list('updated', flat=True))
+            # If the domain has not been published yet, self.published is None and max() would fail
+            return rrset_updated if not self.published else max(rrset_updated, self.published)
+        except ValueError:
+            # This can be none if the domain was never published and has no records (but there should be at least NS)
+            return self.published
+
+    @property
     def is_locally_registrable(self):
         return self.parent_domain_name in settings.LOCAL_PUBLIC_SUFFIXES
 

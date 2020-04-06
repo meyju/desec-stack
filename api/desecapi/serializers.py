@@ -512,7 +512,7 @@ class DomainSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Domain
-        fields = ('created', 'published', 'name', 'keys', 'minimum_ttl',)
+        fields = ('created', 'published', 'name', 'keys', 'minimum_ttl', 'updated',)
         read_only_fields = ('published', 'minimum_ttl',)
         extra_kwargs = {
             'name': {'trim_whitespace': False},

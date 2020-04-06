@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from rest_framework import status
 
-from desecapi.models import RRset
+from desecapi.models import Domain, RRset
 from desecapi.tests.base import DesecTestCase, AuthenticatedRRSetBaseTestCase
 
 
@@ -143,6 +143,8 @@ class AuthenticatedRRSetTestCase(AuthenticatedRRSetBaseTestCase):
                     response = self.client.post_rr_set(domain_name=self.my_empty_domain.name, **data)
                     self.assertTrue(all(field in response.data for field in
                                         ['created', 'domain', 'subname', 'name', 'records', 'ttl', 'type', 'updated']))
+                    self.assertEqual(self.my_empty_domain.updated,
+                                     max(rrset.updated for rrset in self.my_empty_domain.rrset_set.all()))
                     self.assertStatus(response, status.HTTP_201_CREATED)
 
                 # Check for uniqueness on second attempt
@@ -330,11 +332,13 @@ class AuthenticatedRRSetTestCase(AuthenticatedRRSetBaseTestCase):
 
     def test_record_update_rr_sets_if_noop(self):
         for subname in self.SUBNAMES:
-            updated = RRset.objects.get(domain=self.my_rr_set_domain, type='A', subname=subname).updated
+            updated_old = RRset.objects.get(domain=self.my_rr_set_domain, type='A', subname=subname).updated
             response = self.client.patch_rr_set(self.my_rr_set_domain.name, subname, 'A', {})
             self.assertStatus(response, status.HTTP_200_OK)
-            self.assertGreater(RRset.objects.get(domain=self.my_rr_set_domain, type='A', subname=subname).updated,
-                               updated)
+
+            updated_new = RRset.objects.get(domain=self.my_rr_set_domain, type='A', subname=subname).updated
+            self.assertGreater(updated_new, updated_old)
+            self.assertEqual(Domain.objects.get(name=self.my_rr_set_domain.name).updated, updated_new)
 
     def test_partially_update_other_rr_sets(self):
         data = {'records': ['3.2.3.4'], 'ttl': 334}
@@ -430,6 +434,8 @@ class AuthenticatedRRSetTestCase(AuthenticatedRRSetBaseTestCase):
             with self.assertPdnsRequests(self.requests_desec_rr_sets_update(name=self.my_rr_set_domain.name)):
                 response = self.client.delete_rr_set(self.my_rr_set_domain.name, subname=subname, type_='A')
                 self.assertStatus(response, status.HTTP_204_NO_CONTENT)
+                domain = Domain.objects.get(name=self.my_rr_set_domain.name)
+                self.assertEqual(domain.updated, domain.published)
 
             response = self.client.delete_rr_set(self.my_rr_set_domain.name, subname=subname, type_='A')
             self.assertStatus(response, status.HTTP_204_NO_CONTENT)
