@@ -47,3 +47,7 @@ set('desecapi_sent_messages_count', 'number of messages sent')
 #throttling.py metrics
 
 set('desecapi_throttle_failure_occurence', 'number of times throttling failed')
+
+#serializers.py metrics
+
+set('desecapi_RRsetSerializer_many_init', 'number of times many_init function is triggerd in RRsetSerializer')
