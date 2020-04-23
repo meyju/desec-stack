@@ -28,8 +28,9 @@ from dns.exception import Timeout
 from dns.resolver import NoNameservers
 from rest_framework.exceptions import APIException
 
-from desecapi import pdns
 from desecapi import metrics
+from desecapi import pdns
+
 
 logger = logging.getLogger(__name__)
 psl = psl_dns.PSL(resolver=settings.PSL_RESOLVER, timeout=.5)

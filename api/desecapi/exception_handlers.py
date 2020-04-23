@@ -6,9 +6,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import exception_handler as drf_exception_handler
 
+from desecapi import metrics
 from desecapi.exceptions import PDNSException
 
-from desecapi import metrics
 
 
 def exception_handler(exc, context):

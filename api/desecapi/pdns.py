@@ -6,8 +6,9 @@ import requests
 from django.conf import settings
 from django.core.exceptions import SuspiciousOperation
 
-from desecapi.exceptions import PDNSException, PDNSValidationError, RequestEntityTooLarge
 from desecapi import metrics
+from desecapi.exceptions import PDNSException, PDNSValidationError, RequestEntityTooLarge
+
 
 NSLORD = object()
 NSMASTER = object()

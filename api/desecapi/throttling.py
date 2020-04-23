@@ -3,6 +3,7 @@ from rest_framework.settings import api_settings
 
 from desecapi import metrics
 
+
 class ScopedRatesThrottle(throttling.ScopedRateThrottle):
     """
     Like DRF's ScopedRateThrottle, but supports several rates per scope, e.g. for burst vs. sustained limit.

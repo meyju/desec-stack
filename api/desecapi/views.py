@@ -22,13 +22,14 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
 import desecapi.authentication as auth
+from desecapi import metrics
 from desecapi import serializers, models
 from desecapi.exceptions import ConcurrencyException
 from desecapi.pdns import get_serials
 from desecapi.pdns_change_tracker import PDNSChangeTracker
 from desecapi.permissions import IsDomainOwner, IsOwner, IsVPNClient, WithinDomainLimitOnPOST
 from desecapi.renderers import PlainTextRenderer
-from desecapi import metrics
+
 
 class EmptyPayloadMixin:
     def initialize_request(self, request, *args, **kwargs):

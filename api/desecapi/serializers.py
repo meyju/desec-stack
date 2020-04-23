@@ -13,9 +13,8 @@ from rest_framework.settings import api_settings
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator, qs_filter
 
 from api import settings
-from desecapi import crypto, models
+from desecapi import crypto, metrics, models
 from desecapi.exceptions import ConcurrencyException
-from desecapi import metrics
 
 
 class CaptchaSerializer(serializers.ModelSerializer):
