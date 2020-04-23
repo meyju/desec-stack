@@ -27,7 +27,10 @@ set(('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is n
 set('desecapi_key_encryption_success', 'number of times key encryption was successfull')
 set('desecapi_key_decryption_success', 'number of times key decryption was successfull')
 
-#.py metrics
+#exception_handlers.py metrics
+
+set('desecapi_database_unavailability_count', 'number of times database was unavailable')
+
 #.py metrics
 #.py metrics
 #.py metrics
