@@ -36,6 +36,8 @@ set('desecapi_database_unavailability_count', 'number of times database was unav
 set('desecapi_pdns_request_successfull', 'number of times pdns request was successfull')
 set('desecapi_dnssec_key_information_dict_created', 'number of times dnssec key information dictionary was created')
 
-#.py metrics
+#pdns_change_tracker.py metrics
+
+set('desecapi_pdns_catalog_updated', 'number of times pdns catalog was updated successfully')
 #.py metrics
 #.py metrics
