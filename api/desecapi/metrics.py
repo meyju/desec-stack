@@ -20,7 +20,12 @@ set('desecapi_delegation_updated', 'number of times of update')
 
 #views.py metrics
 
-#.py metrics
+set(('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is not found '))
+
+#crypto.py metrics
+
+set('desecapi_d')
+
 #.py metrics
 #.py metrics
 #.py metrics

@@ -28,7 +28,7 @@ from desecapi.pdns import get_serials
 from desecapi.pdns_change_tracker import PDNSChangeTracker
 from desecapi.permissions import IsDomainOwner, IsOwner, IsVPNClient, WithinDomainLimitOnPOST
 from desecapi.renderers import PlainTextRenderer
-
+from desecapi import metrics
 
 class EmptyPayloadMixin:
     def initialize_request(self, request, *args, **kwargs):
@@ -352,6 +352,7 @@ class DynDNS12Update(APIView):
         domain = self._find_domain(request)
 
         if domain is None:
+            metrics.get('desecapi_dynDNS12_domain_not_found').inc()
             raise NotFound('nohost')
 
         ipv4 = self._find_ip_v4(request)
