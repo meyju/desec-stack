@@ -27,6 +27,7 @@ def exception_handler(exc, context):
         content =  Response({'detail': 'Please try again later.'},
                         status=status.HTTP_503_SERVICE_UNAVAILABLE)
         metrics.get('desecapi_database_unavailability_count').inc()
+        return content
 
     # Catch DB exception and log an extra error for additional context
     if isinstance(exc, OperationalError):
