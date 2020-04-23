@@ -24,7 +24,8 @@ set(('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is n
 
 #crypto.py metrics
 
-set('desecapi_d')
+set('desecapi_key_encryption_success', 'number of times key encryption was successfull')
+set('desecapi_key_decryption_success', 'number of times key decryption was successfull')
 
 #.py metrics
 #.py metrics
