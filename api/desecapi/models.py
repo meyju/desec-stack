@@ -273,7 +273,7 @@ class Domain(ExportModelOperationsMixin('Domain'), models.Model):
     def keys(self):
         if not self._keys:
             self._keys = pdns.get_keys(self)
-            metrics.get('desecapi_pdns_keys_fetched')
+            metrics.get('desecapi_pdns_keys_fetched').inc()
         return self._keys
 
     @property
@@ -308,11 +308,12 @@ class Domain(ExportModelOperationsMixin('Domain'), models.Model):
             RRset.objects.create(domain=self, subname=child_subname, type='NS', ttl=3600, contents=settings.DEFAULT_NS)
             RRset.objects.create(domain=self, subname=child_subname, type='DS', ttl=300,
                                  contents=[ds for k in child_keys for ds in k['ds']])
-            metrics.get('desecapi_delegation_updated').inc()
+            metrics.get('desecapi_autodelegation_created').inc()
         else:
             # Domain not real: remove delegation
             for rrset in self.rrset_set.filter(subname=child_subname, type__in=['NS', 'DS']):
                 rrset.delete()
+            metrics.get('desecapi_autodelegation_deleted').inc()
 
     def delete(self):
         ret = super().delete()
@@ -603,6 +604,7 @@ def captcha_default_content():
     alphabet = (string.ascii_uppercase + string.digits).translate({ord(c): None for c in 'IO0'})
     content = ''.join([secrets.choice(alphabet) for _ in range(5)])
     metrics.get('desecapi_captcha_content_created').inc()
+    return content
 
 
 class Captcha(ExportModelOperationsMixin('Captcha'), models.Model):

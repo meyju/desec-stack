@@ -14,26 +14,27 @@ def set(name, *args, **kwargs):
 
 #models.py metrics
 
-set('desecapi_pdns_keys_fetched', 'number of keys fetched')
-set('desecapi_captcha_content_created', 'number of times of retrieval')
-set('desecapi_delegation_updated', 'number of times of update')
+set('desecapi_pdns_keys_fetched', 'number of pdns keys fetched')
+set('desecapi_captcha_content_created', 'number of times captcha content created')
+set('desecapi_autodelegation_created', 'number of autodelegations added')
+set('desecapi_autodelegation_deleted', 'number of autodelegations deleted')
 
 #views.py metrics
 
-set(('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is not found '))
+set('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is not found ')
 
 #crypto.py metrics
 
-set('desecapi_key_encryption_success', 'number of times key encryption was successfull')
-set('desecapi_key_decryption_success', 'number of times key decryption was successfull')
+set('desecapi_key_encryption_success', 'number of times key encryption was successful')
+set('desecapi_key_decryption_success', 'number of times key decryption was successful')
 
 #exception_handlers.py metrics
 
-set('desecapi_database_unavailability_count', 'number of times database was unavailable')
+set('desecapi_database_unavailable', 'number of times database was unavailable')
 
 #pdns.py metrics
 
-set('desecapi_pdns_request_successfull', 'number of times pdns request was successfull')
+set('desecapi_pdns_request_successfull', 'number of times pdns request was successful')
 set('desecapi_dnssec_key_information_dict_created', 'number of times dnssec key information dictionary was created')
 
 #pdns_change_tracker.py metrics
