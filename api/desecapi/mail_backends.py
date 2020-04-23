@@ -35,9 +35,9 @@ class MultiLaneEmailBackend(BaseEmailBackend):
         logger.warning('Sending queued email, details: %s', debug)
         kwargs.setdefault('backend', kwargs.pop('backbackend', MultiLaneEmailBackend.default_backend))
         with get_connection(**kwargs) as connection:
-            content = connection.send_messages([dict_to_email(message) for message in messages])
-            metrics.get('desecapi_sent_messages_count').inc()
-            return content
+            num_sent = connection.send_messages([dict_to_email(message) for message in messages])
+            metrics.get('desecapi_messages_sent').observe(num_sent)
+            return num_sent
 
     @property
     def task(self):

@@ -44,7 +44,7 @@ def _pdns_request(method, *, server, path, data=None):
         raise PDNSValidationError(response=r)
     elif r.status_code not in range(200, 300):
         raise PDNSException(response=r)
-    metrics.get('desecapi_pdns_request_successfull').inc()
+    metrics.get('desecapi_pdns_request_successful').inc()
     return r
 
 
@@ -82,11 +82,11 @@ def get_keys(domain):
     Retrieves a dict representation of the DNSSEC key information
     """
     r = _pdns_get(NSLORD, '/zones/%s/cryptokeys' % pdns_id(domain.name))
-    content = [{k: key[k] for k in ('dnskey', 'ds', 'flags', 'keytype')}
+    metrics.get('desecapi_pdns_keys_fetched').inc()
+    return [{k: key[k] for k in ('dnskey', 'ds', 'flags', 'keytype')}
             for key in r.json()
             if key['active'] and key['keytype'] in ['csk', 'ksk']]
-    metrics.get('desecapi_dnssec_key_information_dict_created').inc()
-    return content
+
 
 
 def get_zone(domain):

@@ -39,9 +39,9 @@ class ScopedRatesThrottle(throttling.ScopedRateThrottle):
             if len(history) >= num_requests:
                 # Prepare variables used by the Throttle's wait() method that gets called by APIView.check_throttles()
                 self.num_requests, self.duration, self.key, self.history = num_requests, duration, key, history
-                content = self.throttle_failure()
-                metrics.get('desecapi_throttle_failure_occurence').inc()
-                return content
+                response = self.throttle_failure()
+                metrics.get('desecapi_throttle_failure').inc()
+                return response
             self.history[key] = history
         return self.throttle_success()
 
