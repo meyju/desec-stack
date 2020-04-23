@@ -43,4 +43,7 @@ set('desecapi_pdns_catalog_updated', 'number of times pdns catalog was updated s
 #mail_backends.py metrics
 
 set('desecapi_sent_messages_count', 'number of messages sent')
-#.py metrics
+
+#throttling.py metrics
+
+set('desecapi_throttle_failure_occurence', 'number of times throttling failed')
