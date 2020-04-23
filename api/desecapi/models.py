@@ -29,6 +29,7 @@ from dns.resolver import NoNameservers
 from rest_framework.exceptions import APIException
 
 from desecapi import pdns
+from desecapi import metrics
 
 logger = logging.getLogger(__name__)
 psl = psl_dns.PSL(resolver=settings.PSL_RESOLVER, timeout=.5)
@@ -272,6 +273,7 @@ class Domain(ExportModelOperationsMixin('Domain'), models.Model):
     def keys(self):
         if not self._keys:
             self._keys = pdns.get_keys(self)
+            metrics.get('desecapi_pdns_keys_fetched')
         return self._keys
 
     @property
@@ -306,6 +308,7 @@ class Domain(ExportModelOperationsMixin('Domain'), models.Model):
             RRset.objects.create(domain=self, subname=child_subname, type='NS', ttl=3600, contents=settings.DEFAULT_NS)
             RRset.objects.create(domain=self, subname=child_subname, type='DS', ttl=300,
                                  contents=[ds for k in child_keys for ds in k['ds']])
+            metrics.get('desecapi_delegation_updated').inc()
         else:
             # Domain not real: remove delegation
             for rrset in self.rrset_set.filter(subname=child_subname, type__in=['NS', 'DS']):
@@ -598,7 +601,8 @@ class AuthenticatedDeleteUserAction(ExportModelOperationsMixin('AuthenticatedDel
 
 def captcha_default_content():
     alphabet = (string.ascii_uppercase + string.digits).translate({ord(c): None for c in 'IO0'})
-    return ''.join([secrets.choice(alphabet) for _ in range(5)])
+    content = ''.join([secrets.choice(alphabet) for _ in range(5)])
+    metrics.get('desecapi_captcha_content_created').inc()
 
 
 class Captcha(ExportModelOperationsMixin('Captcha'), models.Model):
