@@ -6,6 +6,7 @@ from django.core.mail import get_connection
 from django.core.mail.backends.base import BaseEmailBackend
 from djcelery_email.utils import dict_to_email, email_to_dict
 
+from desecapi import metrics
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,9 @@ class MultiLaneEmailBackend(BaseEmailBackend):
         logger.warning('Sending queued email, details: %s', debug)
         kwargs.setdefault('backend', kwargs.pop('backbackend', MultiLaneEmailBackend.default_backend))
         with get_connection(**kwargs) as connection:
-            return connection.send_messages([dict_to_email(message) for message in messages])
+            content = connection.send_messages([dict_to_email(message) for message in messages])
+            metrics.get('desecapi_sent_messages_count').inc()
+            return content
 
     @property
     def task(self):

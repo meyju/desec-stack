@@ -39,5 +39,8 @@ set('desecapi_dnssec_key_information_dict_created', 'number of times dnssec key 
 #pdns_change_tracker.py metrics
 
 set('desecapi_pdns_catalog_updated', 'number of times pdns catalog was updated successfully')
-#.py metrics
+
+#mail_backends.py metrics
+
+set('desecapi_sent_messages_count', 'number of messages sent')
 #.py metrics
