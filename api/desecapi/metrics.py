@@ -47,7 +47,7 @@ set_counter('desecapi_pdns_catalog_updated', 'number of times pdns catalog was u
 
 #mail_backends.py metrics
 
-set_histogram('desecapi_messages_sent', 'distribution of number of messages sent')
+set_histogram('desecapi_messages_sent', 'distribution of number of messages sent', buckets=[0, 1, float("inf")])
 
 #throttling.py metrics
 
