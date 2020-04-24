@@ -274,7 +274,6 @@ class Domain(ExportModelOperationsMixin('Domain'), models.Model):
     def keys(self):
         if not self._keys:
             self._keys = pdns.get_keys(self)
-            metrics.get('desecapi_pdns_keys_fetched').inc()
         return self._keys
 
     @property

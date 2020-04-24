@@ -18,7 +18,6 @@ def set_histogram(name, *args, **kwargs):
 
 #models.py metrics
 
-set_counter('desecapi_pdns_keys_fetched', 'number of pdns keys fetched')
 set_counter('desecapi_captcha_content_created', 'number of times captcha content created')
 set_counter('desecapi_autodelegation_created', 'number of autodelegations added')
 set_counter('desecapi_autodelegation_deleted', 'number of autodelegations deleted')
