@@ -45,7 +45,7 @@ def _pdns_request(method, *, server, path, data=None):
         raise PDNSValidationError(response=r)
     elif r.status_code not in range(200, 300):
         raise PDNSException(response=r)
-    metrics.get('desecapi_pdns_request_successful').inc()
+    metrics.get('desecapi_pdns_request_success').inc()
     return r
 
 
