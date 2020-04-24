@@ -1,5 +1,4 @@
-from prometheus_client import Counter
-from prometheus_client import Histogram
+from prometheus_client import Counter, Histogram
 
 
 metrics = {}
@@ -26,7 +25,7 @@ set_counter('desecapi_autodelegation_deleted', 'number of autodelegations delete
 
 #views.py metrics
 
-set_counter('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is not found ')
+set_counter('desecapi_dynDNS12_domain_not_found', 'number of times dynDNS12 domain is not found')
 
 #crypto.py metrics
 

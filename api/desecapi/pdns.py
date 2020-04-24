@@ -89,7 +89,6 @@ def get_keys(domain):
             if key['active'] and key['keytype'] in ['csk', 'ksk']]
 
 
-
 def get_zone(domain):
     """
     Retrieves a dict representation of the zone from pdns

@@ -22,8 +22,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
 import desecapi.authentication as auth
-from desecapi import metrics
-from desecapi import serializers, models
+from desecapi import serializers, models, metrics
 from desecapi.exceptions import ConcurrencyException
 from desecapi.pdns import get_serials
 from desecapi.pdns_change_tracker import PDNSChangeTracker
